@@ -1,24 +1,26 @@
-pipeline {
-    agent any
-    stages {
-        stage('continuousdownload')
-        {
-            steps
-            {
-                git branch: 'main', url: 'https://github.com/charithaallu/maven.git'
-            }
-        }
-        stage('continuousbuild')
-        {
-            steps
-            {
-                sh 'mvn package'
-            }
-        }
-        stage('Continuousdeployment')
-        {
-            steps 
-            {
-                sh 'scp /var/lib/jenkins/workspace/declarative/webapp/target/webapp.war ubuntu@172.31.4.46:/var/lib/tomcat9/webapps/primeapp.war'
-            }
+node('master') 
+{
+    stage('ContinuousDownload')
+    {
+        git 'https://github.com/charithaallu/newmaven.git'             
+    }
+    stage('ContinuousBuild')
+    {
+        sh 'mvn package'
+    }
+    stage('ContinuousDeployment')
+    {
+        deploy adapters: [tomcat9(credentialsId: '27e3ffa9-812c-4f13-ac39-5d786ac1bc70', path: '', url: 'http://3.98.122.72:8080')], contextPath: 'myfirstapp', war: '**/*.war'
+    }
+
+    stage('ContinuousTesting')
+    {
+        git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
+        sh 'java -jar /var/lib/jenkins/workspace/multibranch_main/testing.jar'
+    }
+    stage('ContinuousDelivery')
+    {
+    
+        deploy adapters: [tomcat9(credentialsId: '27e3ffa9-812c-4f13-ac39-5d786ac1bc70', path: '', url: 'http://15.222.237.57:8080')], contextPath: 'myfirstapp', war: '**/*.war'
+     }
 }
