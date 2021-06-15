@@ -10,7 +10,7 @@ node('master')
     }
     stage('continuousdeployment')
     {
-        deploy adapters: [tomcat9(credentialsId: '27e3ffa9-812c-4f13-ac39-5d786ac1bc70', path: '', url: 'http://3.98.122.72:8080')], contextPath: 'testing', war: '**/*.war'
+        deploy adapters: [tomcat9(credentialsId: '27e3ffa9-812c-4f13-ac39-5d786ac1bc70', path: '', url: 'http://3.98.141.163:8080')], contextPath: 'testing', war: '**/*.war'
     }
     stage('continuousTesting')
     {
@@ -19,7 +19,6 @@ node('master')
     }
     stage('Continuousdelivery')
     {
-        input message: 'waiting for approval', submitter: 'charithaallu@gmail.com'
-        deploy adapters: [tomcat9(credentialsId: '27e3ffa9-812c-4f13-ac39-5d786ac1bc70', path: '', url: 'http://15.222.237.57:8080')], contextPath: 'production', war: '**/*.war'
+        deploy adapters: [tomcat9(credentialsId: '27e3ffa9-812c-4f13-ac39-5d786ac1bc70', path: '', url: 'http://35.183.7.116:8080')], contextPath: 'production', war: '**/*.war'
     }
 }
