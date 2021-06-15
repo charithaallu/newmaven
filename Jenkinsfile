@@ -15,7 +15,7 @@ node('master')
 
     stage('ContinuousTesting')
     {
-        git 'https://github.com/intelliqittrainings/FunctionalTesting1.git'
+        git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
         sh 'java -jar /var/lib/jenkins/workspace/multibranch_main/testing.jar'
     }
     stage('ContinuousDelivery')
