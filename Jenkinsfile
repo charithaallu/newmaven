@@ -2,7 +2,7 @@ node('master')
 {
     stage('ContinuousDownload')
     {
-        git 'https://github.com/intelliqittrainings/maven.git'             
+        git 'https://github.com/charithaallu/newmaven.git'             
     }
     stage('ContinuousBuild')
     {
@@ -10,16 +10,16 @@ node('master')
     }
     stage('ContinuousDeployment')
     {
-sh 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war ubuntu@172.31.23.20:/var/lib/tomcat9/webapps/testapp.war'
+        deploy adapters: [tomcat9(credentialsId: '27e3ffa9-812c-4f13-ac39-5d786ac1bc70', path: '', url: 'http://3.98.122.72:8080')], contextPath: 'myfirstapp', war: '**/*.war'
     }
 
     stage('ContinuousTesting')
     {
-        git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
-        sh 'java -jar /home/ubuntu/.jenkins/workspace/ScriptedPipeline/testing.jar'
+        git 'https://github.com/intelliqittrainings/FunctionalTesting1.git'
+        sh 'java -jar /var/lib/jenkins/workspace/multibranch_main/testing.jar'
     }
     stage('ContinuousDelivery')
     {
     
-    sh 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war ubuntu@172.31.28.60:/var/lib/tomcat9/webapps/prodapp.war'}
+        deploy adapters: [tomcat9(credentialsId: '27e3ffa9-812c-4f13-ac39-5d786ac1bc70', path: '', url: 'http://15.222.237.57:8080')], contextPath: 'myfirstapp', war: '**/*.war'
 }
